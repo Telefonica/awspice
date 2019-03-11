@@ -1,0 +1,10 @@
+# Requirements
+-rrequirements.txt
+
+# Testing
+pytest==2.9.2
+
+# Documentation
+Sphinx
+sphinx_rtd_theme
+sphinxcontrib.napoleon
