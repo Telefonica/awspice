@@ -55,6 +55,7 @@ def get_amis_by_distribution(self, distrib, version='*', latest=False, regions=[
         distrib (str): Distribution of the image (i.e.: ubuntu)
         version (str): Version of the system
         latest (bool): True if only returns the newest item.
+        regions (lst): Regions where to look for this element
 
     Return:
         Image (lst): List with the images requested.

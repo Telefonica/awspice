@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from base import AwsBase
+from .base import AwsBase
 
 class AcmService(AwsBase):
     '''
@@ -42,9 +42,11 @@ class AcmService(AwsBase):
             raise Exception('Invalid filter key. Allowed filters: ' + str(filters))
 
         certificates = self.list_certificates(regions=regions)
-        certificate_arn = filter(lambda x: x['DomainName'] == filter_value , certificates)
+        certificate_arn = next((x for x in certificates if x['DomainName'] == filter_value), None)
+
         if certificate_arn:
-            return self.get_certificate(arn=certificate_arn[0]['CertificateArn'], regions=[certificate_arn[0]['RegionName']])
+            print(certificate_arn)
+            return self.get_certificate(arn=certificate_arn['CertificateArn'], regions=[certificate_arn['Region']['RegionName']])
         else:
             return None
 
@@ -62,8 +64,13 @@ class AcmService(AwsBase):
         regions = self.parse_regions(regions)
         for region in regions:
             self.change_region(region['RegionName'])
-            certificate = self.inject_client_vars([self.client.describe_certificate(CertificateArn=arn)['Certificate']])[0]
-            if certificate: return certificate
+            try:
+                certificate = self.inject_client_vars([self.client.describe_certificate(CertificateArn=arn)['Certificate']])[0]
+                if certificate: 
+                    return certificate 
+            except Exception as e:
+                pass
+            
         return None
 
 

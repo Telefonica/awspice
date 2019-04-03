@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from awspice.services.base import AwsBase
+from .base import AwsBase
 from botocore.exceptions import ClientError
-import StringIO
+from io import StringIO
 
 class S3Service(AwsBase):
     '''

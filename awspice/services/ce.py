@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from base import AwsBase
+from .base import AwsBase
 import datetime
 
 class CostExplorerService(AwsBase):
@@ -100,7 +100,7 @@ class CostExplorerService(AwsBase):
         args = filters.keys()
         result = {}
         if len(args) == 1:
-            for key, value in filters.iteritems():
+            for key, value in filters.items():
                 tagvalue = value if isinstance(value, list) else [value]
                 if key.upper().startswith('TAG_'):
                     tagkey = key[4:].title()
@@ -111,7 +111,7 @@ class CostExplorerService(AwsBase):
                     raise ValueError('Invalid filter. Allowed filters: %s' % str(self.filter_dimensions))
         elif len(args) > 1:
             result['And'] = list()
-            for key, value in filters.iteritems():
+            for key, value in filters.items():
                 result['And'].append(self._format_filters({key: value}))
         return result
 

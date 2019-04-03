@@ -304,19 +304,19 @@ class AwsBase(object):
             # Load endpoints file
             endpoint_resource = resource_filename('botocore', 'data/endpoints.json')
             with open(endpoint_resource, 'r') as f:
-                endpoints = json.load(f)
+                data = f.read()
+                endpoints = json.loads(data)
 
             # Get regions for "AWS Standard" (Not Gov, China)
-            partitions = filter(lambda x: x['partitionName'] == "AWS Standard",
-                                endpoints['partitions'])[0]
+            partition = next((x for x in endpoints['partitions'] if x['partitionName'] == 'AWS Standard'), None)
 
             # Format JSON & Save
             results = dict()
             results['Regions'] = dict()
-            results['Services'] = partitions['services']
-            results['Defaults'] = partitions['defaults']
-            results['DnsSuffix'] = partitions['dnsSuffix']
-            for k, v in partitions['regions'].iteritems():
+            results['Services'] = partition['services']
+            results['Defaults'] = partition['defaults']
+            results['DnsSuffix'] = partition['dnsSuffix']
+            for k, v in partition['regions'].items():
                 desc = v['description']
                 results['Regions'][k] = {"Description": desc,
                                          "Country": desc[desc.find("(")+1:desc.find(")")]}
@@ -338,7 +338,7 @@ class AwsBase(object):
 
         # Return as list
         results = dict()
-        for k, v in partition['Services'].iteritems():
+        for k, v in partition['Services'].items():
             url = v.get('Defaults', {}).get('hostname', default_url)
             results[k] = {
                 'Regions': v['endpoints'].keys(),
@@ -371,6 +371,7 @@ class AwsBase(object):
             None
         '''
         AwsBase.region = region
+        #raruno
         self.set_client(self.service)
 
     def parse_regions(self, regions=[], default_all=False):
@@ -401,13 +402,22 @@ class AwsBase(object):
 
         # regions = 'eu-west-1'
         if isinstance(regions, str):
+            regions = regions.encode('ascii', 'ignore')
+            print(regions)
             results = [{'RegionName':regions}]
 
         # regions = ['eu-west-1'] or [u'eu-west-1'] or [{'RegionName': 'eu-west-1}]
         elif isinstance(regions, list) and regions:
+            print(regions)
+            try:
+                regions = [region.encode('ascii', 'ignore') for region in regions]
+            except Exception as e:
+                for dic in regions:
+                    dic['RegionName'] = dic['RegionName'].encode('ascii', 'ignore')
+            print(regions)
             if isinstance(regions[0], dict) and regions[0].get('RegionName', False):
                 return regions
-            elif isinstance(regions[0], basestring):
+            elif isinstance(regions[0], str):
                 [results.append({'RegionName': region}) for region in set(regions)]
             else:
                 raise ValueError('Invalid regions value.')

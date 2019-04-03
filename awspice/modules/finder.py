@@ -38,9 +38,13 @@ class FinderModule:
 
 
         for account in profiles:
-            self.aws.ec2.change_profile(account)
-            instance = self.aws.ec2.get_instance_by(filters, regions=regions)
-            if instance: return instance
+            try:
+                self.aws.ec2.change_profile(account)
+                instance = self.aws.ec2.get_instance_by(filters, regions=regions)
+                if instance: 
+                    return instance
+            except:
+                pass
                 
         return {}
 
@@ -69,9 +73,13 @@ class FinderModule:
         regions = self.aws.ec2.parse_regions(regions, True)
 
         for account in profiles:
-            self.aws.ec2.change_profile(account)
-            volume = self.aws.ec2.get_volume_by(filters, regions=regions)
-            if volume: return volume
+            try:
+                self.aws.ec2.change_profile(account)
+                volume = self.aws.ec2.get_volume_by(filters, regions=regions)
+                if volume: 
+                    return volume
+            except:
+                pass
         return None
 
     def find_volumes(self, filters=None, profiles=[], regions=[]):
@@ -99,9 +107,13 @@ class FinderModule:
         regions = self.aws.elb.parse_regions(regions, True)
 
         for account in profiles:
-            self.aws.elb.change_profile(account)
-            elb = self.aws.elb.get_loadbalancer_by(filters, regions=regions)
-            if elb: return elb
+            try:
+                self.aws.elb.change_profile(account)
+                elb = self.aws.elb.get_loadbalancer_by(filters, regions=regions)
+                if elb: 
+                    return elb
+            except:
+                pass
         return None
 
 
@@ -136,7 +148,8 @@ class FinderModule:
 
             results.extend(self.aws.iam.get_users())
 
-        for profile in profiles: self.aws.iam.pool.add_task(worker, profile)
+        for profile in profiles: 
+            self.aws.iam.pool.add_task(worker, profile)
         self.aws.iam.pool.wait_completion()
 
         return results
@@ -173,7 +186,8 @@ class FinderModule:
             lock.release()
             results.extend(self.aws.s3.get_buckets())
 
-        for profile in profiles: self.aws.s3.pool.add_task(worker, profile)
+        for profile in profiles: 
+            self.aws.s3.pool.add_task(worker, profile)
         self.aws.s3.pool.wait_completion()
 
         return results

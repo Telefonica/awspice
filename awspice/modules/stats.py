@@ -22,13 +22,13 @@ class StatsModule:
             List of regions with its stats
         '''
         results = dict()
-        regions = self.aws.ec2.parse_regions(regions)
+        regions = [region.encode('ascii', 'ignore') for region in regions]
 
         results['Users'] = self.aws.iam.get_users()
         results['Buckets'] = self.aws.s3.get_buckets()
         results['Regions'] = dict()
         for region in regions:
-            self.aws.ec2.change_region(region['RegionName'])
+            self.aws.ec2.change_region(region)
             data = dict()
             data['Instances'] = self.aws.ec2.get_instances()
             data['SecurityGroups'] = self.aws.ec2.get_secgroups()
@@ -39,7 +39,7 @@ class StatsModule:
             data['LoadBalancers'] = self.aws.elb.get_loadbalancers()
             data['Databases'] = self.aws.rds.get_databases()
             data['Certificates'] = self.aws.acm.list_certificates()
-            results['Regions'][region['RegionName']] = data
+            results['Regions'][region] = data
         return results
 
     def cost_saving(self, regions=[]):
@@ -53,10 +53,10 @@ class StatsModule:
             Dict Region with a list of regions with its unused elements
         '''
         results = dict()
-        regions = self.aws.ec2.parse_regions(regions)
+        regions = [region.encode('ascii', 'ignore') for region in regions]
 
         for region in regions:
-            self.aws.ec2.change_region(region['RegionName'])
+            self.aws.ec2.change_region(region)
 
             savings = dict()
             savings['Volumes'] = self.aws.ec2.get_volumes_by({'status': 'available'})
@@ -65,7 +65,7 @@ class StatsModule:
             elbs = self.aws.elb.get_loadbalancers()
             savings['LoadBalancers'] = filter(lambda x: x.get('Instances') == [], elbs)
 
-            results[region['RegionName']] = savings
+            results[region] = savings
         return {'Regions': results}
 
     def __init__(self, aws):

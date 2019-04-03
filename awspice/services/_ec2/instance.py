@@ -42,7 +42,8 @@ def _extract_instances(self, filters=[], regions=[], return_first=False):
                 results.extend(instances)
 
     # Launch tasks in threads
-    for region in regions: self.pool.add_task(worker, region=region)
+    for region in regions: 
+        self.pool.add_task(worker, region=region)
 
     # Wait results
     self.pool.wait_completion()

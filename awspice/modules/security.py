@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .finder import FinderModule
 
-class SecurityModule:
+class SecurityModule(object):
     '''
     This class facilitates methods for securing the AWS account
 
