@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from servicemanager import ServiceManager
-from modules import *
+from .servicemanager import ServiceManager
+from .modules import *
 from botocore.exceptions import ProfileNotFound, ClientError
 
 

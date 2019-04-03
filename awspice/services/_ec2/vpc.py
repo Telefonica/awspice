@@ -35,5 +35,6 @@ def get_default_vpc(self):
     '''
     vpcs = self.get_vpcs()
 
-    vpc = filter(lambda x: x['IsDefault'] is True, vpcs)
-    return vpc[0]
+    vpc = next((x for x in vpcs if x['IsDefault'] is True), None)
+    
+    return vpc

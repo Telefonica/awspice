@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from threading import Thread
-from Queue import Queue
+import sys
+if sys.version_info[:3] < (3,0):
+    from Queue import Queue
+else:
+    from queue import Queue
 from time import mktime
 import json
 import datetime
@@ -21,7 +25,8 @@ class Worker(Thread):
         while True:
             func, args, kargs = self.tasks.get()
             try: func(*args, **kargs)
-            except Exception, e: print e
+            except Exception as e: 
+                print(e)
             self.tasks.task_done()
 
 class ThreadPool:

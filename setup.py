@@ -31,7 +31,7 @@ setup(
     url='https://github.com/davidmoremad',
     project_urls={
         "Documentation": "https://awspice.readthedocs.io",
-        "Source Code": "https://github.com/davidmoremad/awspice",
+        "Source Code": "https://github.com/Telefonica/awspice",
     },
     description='Awspice is a wrapper tool of Boto3 library to list inventory and manage your AWS infrastructure The objective of the wrapper is to abstract the use of AWS, being able to dig through all the data of our account. It belongs to ElevenPaths, Telefonica.',
     long_description=open('README.rst').read(),

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from base import AwsBase
+from .base import AwsBase
 from datetime import datetime
 
 class IamService(AwsBase):

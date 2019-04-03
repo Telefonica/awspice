@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from base import AwsBase
+from .base import AwsBase
 from threading import Lock
 import dns.resolver
 
@@ -78,10 +78,15 @@ class ElbService(AwsBase):
         '''
 
         results = list()
+        
+        # TODO - Raruno (by Oscar)
         if filter_key == 'tagname':
             for region in self.parse_regions(regions=regions):
-                self.change_region(region)
-                results.extend(self.client.describe_load_balancers(LoadBalancerNames=[filter_value])['LoadBalancerDescriptions'])
+                try:
+                    self.change_region(region)
+                    results.extend(self.client.describe_load_balancers(LoadBalancerNames=[filter_value])['LoadBalancerDescriptions'])
+                except:
+                    pass
 
         return results
 
@@ -105,6 +110,7 @@ class ElbService(AwsBase):
         if filter_key not in self.loadbalancer_filters:
             raise ValueError('Invalid filter key. Allowed filters: ' + str(self.loadbalancer_filters.keys()))
 
+        #bucle infinito
         if filter_key == 'tagname':
             elbs = self.get_loadbalancer_by(filter_key, filter_value, regions)
         else:
