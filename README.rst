@@ -1,23 +1,21 @@
 Awspice
 =======
 
-.. image:: https://api.codacy.com/project/badge/Grade/de3c0b7119994ee1a6a9736a7b95bf5d
-   :alt: Codacy Badge
-   :target: https://app.codacy.com/app/davidmoremad/awspice?utm_source=github.com&utm_medium=referral&utm_content=Telefonica/awspice&utm_campaign=Badge_Grade_Dashboard
-
-
-|Docs| |Version| |Codacy|
-
+|Docs| |Version| |Travis| |Codacy|
 
 .. |Docs| image:: https://readthedocs.org/projects/awspice/badge/?version=latest
    :target: http://awspice.readthedocs.io/en/latest/?badge=latest
    :alt: Read the Docs
 .. |Version| image:: http://img.shields.io/pypi/v/awspice.svg?style=flat
-    :target: https://pypi.python.org/pypi/awspice/
-    :alt: Version
-.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/827a55c2ed47488c8e642fe799028319
-    :target: https://www.codacy.com/app/davidmoremad/awspice?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=davidmoremad/awspice&amp;utm_campaign=Badge_Grade
-    :alt: Codacy
+   :target: https://pypi.python.org/pypi/awspice/
+   :alt: Version
+.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/de3c0b7119994ee1a6a9736a7b95bf5d
+   :target: https://app.codacy.com/app/davidmoremad/awspice?utm_source=github.com&utm_medium=referral&utm_content=Telefonica/awspice&utm_campaign=Badge_Grade_Dashboard
+   :alt: Codacy
+.. |Travis| image:: https://travis-ci.org/Telefonica/awspice.svg?branch=master
+   :target: https://travis-ci.org/Telefonica/awspice
+   :alt: Travis-CI
+
 
 Table of content (Full doc in `ReadTheDocs <http://awspice.readthedocs.io/en/latest/>`_) :
 
