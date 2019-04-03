@@ -1,7 +1,7 @@
 Awspice
 =======
 
-|Docs| |Version| |Travis| |Codacy|
+|Docs| |Version| |PythonVersions| |Travis| |Codacy|
 
 .. |Docs| image:: https://readthedocs.org/projects/awspice/badge/?version=latest
    :target: http://awspice.readthedocs.io/en/latest/?badge=latest
@@ -15,7 +15,8 @@ Awspice
 .. |Travis| image:: https://travis-ci.org/Telefonica/awspice.svg?branch=master
    :target: https://travis-ci.org/Telefonica/awspice
    :alt: Travis-CI
-
+.. |PythonVersions| image:: https://img.shields.io/pypi/pyversions/awspice.svg
+   :alt: PyPI - Python Version
 
 Table of content (Full doc in `ReadTheDocs <http://awspice.readthedocs.io/en/latest/>`_) :
 
