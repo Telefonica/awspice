@@ -1,6 +1,10 @@
 Awspice
 =======
 
+.. image:: https://api.codacy.com/project/badge/Grade/de3c0b7119994ee1a6a9736a7b95bf5d
+   :alt: Codacy Badge
+   :target: https://app.codacy.com/app/davidmoremad/awspice?utm_source=github.com&utm_medium=referral&utm_content=Telefonica/awspice&utm_campaign=Badge_Grade_Dashboard
+
 
 |Docs| |Version| |Codacy|
 
