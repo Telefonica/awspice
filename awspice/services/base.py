@@ -402,19 +402,10 @@ class AwsBase(object):
 
         # regions = 'eu-west-1'
         if isinstance(regions, str):
-            regions = regions.encode('ascii', 'ignore')
-            print(regions)
             results = [{'RegionName':regions}]
 
         # regions = ['eu-west-1'] or [u'eu-west-1'] or [{'RegionName': 'eu-west-1}]
         elif isinstance(regions, list) and regions:
-            print(regions)
-            try:
-                regions = [region.encode('ascii', 'ignore') for region in regions]
-            except Exception as e:
-                for dic in regions:
-                    dic['RegionName'] = dic['RegionName'].encode('ascii', 'ignore')
-            print(regions)
             if isinstance(regions[0], dict) and regions[0].get('RegionName', False):
                 return regions
             elif isinstance(regions[0], str):

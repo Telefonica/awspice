@@ -45,7 +45,6 @@ class AcmService(AwsBase):
         certificate_arn = next((x for x in certificates if x['DomainName'] == filter_value), None)
 
         if certificate_arn:
-            print(certificate_arn)
             return self.get_certificate(arn=certificate_arn['CertificateArn'], regions=[certificate_arn['Region']['RegionName']])
         else:
             return None

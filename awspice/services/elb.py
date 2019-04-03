@@ -78,12 +78,12 @@ class ElbService(AwsBase):
         '''
 
         results = list()
-        #raruno
+        
+        # TODO - Raruno (by Oscar)
         if filter_key == 'tagname':
             for region in self.parse_regions(regions=regions):
                 try:
                     self.change_region(region)
-                    print(self.client.describe_load_balancers(LoadBalancerNames=[filter_value]))
                     results.extend(self.client.describe_load_balancers(LoadBalancerNames=[filter_value])['LoadBalancerDescriptions'])
                 except:
                     pass
