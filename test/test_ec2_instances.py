@@ -1,7 +1,10 @@
-import json
+import sys, json
 import awspice
 import botocore
-from unittest.mock import patch
+if sys.version_info >= (3, 3):
+    from unittest.mock import patch
+else:
+    from mock import patch
 
 calls = [
     'DescribeInstances',
