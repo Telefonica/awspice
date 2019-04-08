@@ -8,4 +8,6 @@ python:
 install:
   - pip install -r requirements-dev.txt
 script:
+  - mkdir ~/.aws
+  - cp test/data/credentials ~/.aws/
   - python -m pytest
