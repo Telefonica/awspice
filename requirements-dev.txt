@@ -2,9 +2,10 @@
 -rrequirements.txt
 
 # Testing
-pytest
+pytest==4.4.0
+mock==2.0.0
 
 # Documentation
-Sphinx
+Sphinx==1.8.5
 sphinx_rtd_theme
 sphinxcontrib.napoleon
