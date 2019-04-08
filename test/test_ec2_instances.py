@@ -14,7 +14,7 @@ def load(filepath):
 
 @patch("botocore.client.BaseClient._make_api_call")
 def test_get_instances(mock):
-    mock.return_value=load('tests/data/ec2/instances.json')
+    mock.return_value=load('test/data/ec2/instances.json')
     region = 'eu-west-1'
     x = awspice.connect(region).service.ec2.get_instances()
     assert all(instance['Region']['RegionName'] == region for instance in x)
