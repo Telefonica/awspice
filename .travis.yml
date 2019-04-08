@@ -8,4 +8,4 @@ python:
 install:
   - pip install -r requirements-dev.txt
 script:
-  - pip freeze
+  - python -m pytest
