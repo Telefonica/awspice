@@ -17,6 +17,7 @@ class ServiceManager:
     _rds = None
     _s3 = None
     _ce = None
+    _route53 = None
 
     @property
     def ec2(self):
@@ -52,6 +53,11 @@ class ServiceManager:
     def ce(self):
         if self._ce is None: self._ce = CostExplorerService()
         return self._ce
+
+    @property
+    def route53(self):
+        if self._route53 is None: self._route53 = Route53Service()
+        return self._route53
 
 
     @classmethod
