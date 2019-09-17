@@ -95,6 +95,17 @@ Rds
 
 
 
+Route53
+-------
+
+.. autosummary::
+
+   awspice.services.route53.Route53Service.list_hosted_zones
+   awspice.services.route53.Route53Service.list_records
+   awspice.services.route53.Route53Service.list_records_by_domain
+
+
+
 S3
 --
 
