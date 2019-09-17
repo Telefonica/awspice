@@ -31,14 +31,16 @@ Table of content (Full doc in `ReadTheDocs <http://awspice.readthedocs.io/en/lat
 What is Awspice?
 ****************
 
-Is a wrapper tool of Boto3 library to list inventory and manage your AWS infrastructure
-The objective of the wrapper is to abstract the use of AWS, being able to dig through all the data of our account,
-and for example you will be able of:
+Is a wrapper of Boto3 library to list inventory and manage your AWS infrastructure
+The objective of the wrapper is to make easier some common tasks in AWS, being able to dig through different regions and accounts.
 
-* Run a ssh-command for all instances in all regions
+Awspice make it easy to:
+
+* List all your EC2 instances for multiple regions and accounts
+* Get deployed infraestructure behind a Load Balancer.
 * List all instances with exposed critical ports like 22 or 3389
 * Get info about all certificates of your account/s
-* Obtain all the infrastructure after a domain associated with a balancer
+* Find exposed S3 buckets
 
 ------------------------------------------------------------------------------------------
 
@@ -67,9 +69,12 @@ The client is built and configured using ``awspice.connect()``. This method indi
 
   import awspice
 
-  aws = awspice.connect() # Region: eu-west-1 | Profile: Default
+  # Region: eu-west-1 | Profile: Default
+  aws = awspice.connect()
 
+  # Using profiles
   aws = awspice.connect(region='us-west-2', profile='dev_profile')
+  # Using access keys
   aws = awspice.connect('us-west-2', access_key='AKIA***********', secret_key='/HR$4************')
 
 
@@ -89,7 +94,7 @@ Usage
 
   aws = awspice.connect()
 
-  elb = aws.service.elb.get_loadbalancer_by('domain', 'choosetravel.es')
+  elb = aws.service.elb.get_loadbalancer_by('domain', 'donalddumb.com')
   for elb_instance in elb['Instances']:
     instance = aws.service.ec2.get_instance_by('id', elb_instance['InstanceId'])
 
@@ -98,8 +103,8 @@ Usage
 
 .. code-block:: python
 
-  regions = aws.service.ec2.get_regions()
-  volumes = awsmanager.service.ec2.get_volumes_by('status', 'available', regions=regions)
+  all_regions = aws.service.ec2.get_regions()
+  volumes = awsmanager.service.ec2.get_volumes_by('status', 'available', regions=all_regions)
 
 
 **Example**: Search instance in all accounts and regions by Public IP
