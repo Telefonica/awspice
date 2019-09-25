@@ -6,12 +6,22 @@ class Route53Service(AwsBase):
     Class belonging to the Route 53 DNS Service
     '''
 
-    def list_hosted_zones(self, regions=[]):
+    def get_domains(self):
+        '''
+        Get hosted zones and its records
+
+        Returns:
+            (lst): List of Hosted Zones with Records
+        '''
+        domains = []
+        for hz in self.list_hosted_zones():
+            hz['Records'] = self.list_records(hz['Id'])
+            domains.append(hz)
+        return domains
+
+    def list_hosted_zones(self):
         '''
         List all hosted zones
-
-        Args:
-            regions (lst): List of regions
 
         Returns:
             List of hosted zones
@@ -23,7 +33,6 @@ class Route53Service(AwsBase):
         List all records for a hosted zone
 
         Args:
-            regions (lst): List of regions
             hosted zone (str): The ID of the hosted zone that contains the resource record sets that you want to list
 
         Returns:
@@ -43,7 +52,6 @@ class Route53Service(AwsBase):
         List all records of a hosted-zone domain
 
         Args:
-            regions (lst): List of regions
             domain (str): The DOMAIN name of the hosted zone that contains the resource record sets that you want to list
 
         Returns:
