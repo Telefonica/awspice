@@ -408,7 +408,7 @@ class AwsBase(object):
         elif isinstance(regions, list) and regions:
             if isinstance(regions[0], dict) and regions[0].get('RegionName', False):
                 return regions
-            elif isinstance(regions[0], str):
+            elif isinstance(regions[0], str) or isinstance(regions[0], unicode):
                 [results.append({'RegionName': region}) for region in set(regions)]
             else:
                 raise ValueError('Invalid regions value.')
