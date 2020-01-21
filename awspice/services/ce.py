@@ -9,9 +9,9 @@ class CostExplorerService(AwsBase):
 
     granularities = ['DAILY', 'MONTHLY']
     filter_dimensions = ['AZ', 'INSTANCE_TYPE', 'LINKED_ACCOUNT', 'OPERATION', 'PURCHASE_TYPE', 'REGION', 'SERVICE', 'USAGE_TYPE', 'USAGE_TYPE_GROUP', 'RECORD_TYPE', 'OPERATING_SYSTEM', 'TENANCY', 'SCOPE', 'PLATFORM', 'SUBSCRIPTION_ID', 'LEGAL_ENTITY_NAME', 'DEPLOYMENT_OPTION', 'DATABASE_ENGINE', 'CACHE_ENGINE', 'INSTANCE_TYPE_FAMILY']
-    group_dimensions = ['AZ', 'INSTANCE_TYPE', 'LEGAL_ENTITY_NAME', 'LINKED_ACCOUNT', 'OPERATION', 'PLATFORM', 'PURCHASE_TYPE', 'SERVICE', 'TAGS', 'TENANCY', 'USAGE_TYPE']
+    group_dimensions = ['AZ', 'INSTANCE_TYPE', 'LEGAL_ENTITY_NAME', 'LINKED_ACCOUNT', 'OPERATION', 'PLATFORM', 'PURCHASE_TYPE', 'SERVICE', 'TAG', 'TENANCY', 'USAGE_TYPE']
 
-    def get_cost(self, from_date=None, to_date=None, interval="Monthly", group_by='', filter_by={}, ec2_running_hours=False):
+    def get_cost(self, from_date=None, to_date=None, interval="Monthly", group_by='', group_by_tag_value='', filter_by={}, ec2_running_hours=False):
         '''
         Get the cost of account or its elements.
 
@@ -23,7 +23,8 @@ class CostExplorerService(AwsBase):
             from_date (str): Date from which you want to obtain data. (Format: 2018-04-24)
             to_date (str): Date until which you want to obtain data. (Format: 2018-04-24)
             interval (str): Time interval to be analyzed. [ MONTHLY | DAILY ]
-            group_by (str): Group results by ['AZ', 'INSTANCE_TYPE', 'LEGAL_ENTITY_NAME', 'LINKED_ACCOUNT', 'OPERATION', 'PLATFORM', 'PURCHASE_TYPE', 'SERVICE', 'TAGS', 'TENANCY', 'USAGE_TYPE']
+            group_by (str): Group results by ['AZ', 'INSTANCE_TYPE', 'LEGAL_ENTITY_NAME', 'LINKED_ACCOUNT', 'OPERATION', 'PLATFORM', 'PURCHASE_TYPE', 'SERVICE', 'TAG', 'TENANCY', 'USAGE_TYPE']
+            group_by_tag_value (str): TAG key in case group_by set to 'TAG' (i.e. Name, Project or Environment)
             filter_by (dict): Key of the filter and value. {'TAG_NAME': ['ec2-tagname', 'LINKED_ACCOUNT: ['1234']]}
 
         Examples:
@@ -51,7 +52,7 @@ class CostExplorerService(AwsBase):
         timeperiod = {'Start': from_date , 'End': to_date}
         if ec2_running_hours: filter_by['USAGE_TYPE_GROUP'] = 'EC2: Running Hours'
         filters = self._format_filters(filter_by)
-        groups  = self._format_groups(group_by)
+        groups  = self._format_groups(group_by, group_by_tag_value)
 
         if filters:
             results = self.client.get_cost_and_usage(TimePeriod=timeperiod,
@@ -67,7 +68,7 @@ class CostExplorerService(AwsBase):
         return results['ResultsByTime']
         
 
-    def _format_groups(self, group):
+    def _format_groups(self, group, group_by_tag_value=''):
         """Give the correct format to groups for get_cost function
         
         Args:
@@ -79,7 +80,10 @@ class CostExplorerService(AwsBase):
         result = []
         if group:
             if group.upper() in self.group_dimensions:
-                result = [{'Type': 'DIMENSION', 'Key': group.upper()}]
+                if group.upper() == 'TAG':
+                    result = [{'Type': 'TAG', 'Key': group_by_tag_value}]
+                else:
+                    result = [{'Type': 'DIMENSION', 'Key': group.upper()}]
             else:
                 raise ValueError("%s is not a valid filter to group by" % group)
         return result
